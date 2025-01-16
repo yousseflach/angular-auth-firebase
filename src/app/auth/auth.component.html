@@ -1,17 +1,20 @@
 <div class="conteneur {{isLoginMode ? '' : 'sign-up-mode'}}">
-  <div class="forms-conteneur">
+  <div class="forms-conteneur relative">
+    <div *ngIf="isLoading" class="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 " [class]="!isLoginMode ? 'sign-in-form' : 'sign-up-form'">
+      <app-loading></app-loading>
+    </div>
     <div class="signin-signup">
-      <form action="#" [class]="isLoginMode ? 'sign-in-form' : 'sign-up-form'">
+      <form *ngIf="!isLoading" action="#" [class]="isLoginMode ? 'sign-in-form' : 'sign-up-form'" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
         <h2 class="title">{{ isLoginMode ? 'Sign in' : 'Sign up' }} </h2>
         <div class="input-field">
           <i class="fas fa-user"></i>
-          <input type="text" placeholder="Username" />
+          <input type="email" placeholder="Email" ngModel name="email" required email />
         </div>
         <div class="input-field">
           <i class="fas fa-lock"></i>
-          <input type="password" placeholder="Password" />
+          <input type="password" placeholder="Password" ngModel name="password" required minlength="8" />
         </div>
-        <input type="submit" [value]="isLoginMode ? 'Login' : 'Register'" class="btn solid" />
+        <input type="submit" [value]="isLoginMode ? 'Login' : 'Register'" class="btn solid" [disabled]="!authForm.valid" />
         <p class="social-text">Or Sign in with social platforms</p>
         <div class="social-media">
           <a href="#" class="social-icon">
