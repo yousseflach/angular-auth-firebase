@@ -38,7 +38,7 @@ export class AuthComponent {
         },
         error => {
           console.log(error);
-          this.error = 'An error accured!';
+          this.error = error;
           this.isLoading = false;
         }
       );
