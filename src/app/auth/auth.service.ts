@@ -29,22 +29,20 @@ export class AuthService {
           returnScureToken: true,
         }
       )
-      .pipe(
-        catchError(this.handleError)
-      );
+      .pipe(catchError(this.handleError));
   }
 
   login(email: string, password: string) {
-    return this.http.post<authResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBUZ28W5A-f2TymmFmXSX21mDmM3rSzzpc',
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      }
-    ).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .post<authResponseData>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBUZ28W5A-f2TymmFmXSX21mDmM3rSzzpc',
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }
+      )
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -58,14 +56,14 @@ export class AuthService {
       case 'EMAIL_EXISTS':
         errorMessage = 'This email exists already';
         break;
-      case 'TOO_MANY_ATTEMPTS_TRY_LATER':
-        errorMessage = 'Nous avons bloqué toutes les demandes provenant de cet appareil en raison d\'une activité inhabituelle. Réessayez plus tard.';
+      case 'INVALID_LOGIN_CREDENTIALS':
+        errorMessage = 'Invalid login credentials';
         break;
       case 'EMAIL_NOT_FOUND':
-        errorMessage = 'Les information n\'est pas valide';
+        errorMessage = 'This email does not exist.';
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = 'Les information n\'est pas valide';
+        errorMessage = 'This password is not correct.';
         break;
     }
 

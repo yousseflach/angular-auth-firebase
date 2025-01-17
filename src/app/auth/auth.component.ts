@@ -13,7 +13,7 @@ export class AuthComponent {
   isLoading = false;
   error: string | null = null;
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService) {}
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -27,22 +27,20 @@ export class AuthComponent {
     const email = form.value.email;
     const password = form.value.password;
 
-
-    let authobs : Observable<authResponseData>;
+    let authobs: Observable<authResponseData>;
     this.isLoading = true;
     if (this.isLoginMode) {
       authobs = this.authService.login(email, password);
     } else {
-      authobs = this.authService.signup(email,password);
+      authobs = this.authService.signup(email, password);
     }
 
     authobs.subscribe(
-      resData => {
+      (resData) => {
         console.log(resData);
         this.isLoading = false;
       },
-      error => {
-        console.log(error);
+      (error) => {
         this.error = error;
         this.isLoading = false;
       }
